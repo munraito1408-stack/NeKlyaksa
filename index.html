@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background: transparent;
+  }
+
+  .comparison {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    --split: 50%;
+  }
+
+  .comparison img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .after {
+    clip-path: inset(0 0 0 var(--split));
+  }
+
+  .line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--split);
+    width: 2px;
+    background: white;
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  .handle {
+    position: absolute;
+    top: 50%;
+    left: var(--split);
+    transform: translate(-50%, -50%);
+    color: white;
+    font: bold 18px Arial, sans-serif;
+    text-shadow: 0 1px 3px #555;
+    pointer-events: none;
+  }
+
+  input[type="range"] {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: ew-resize;
+    touch-action: pan-y;
+  }
+</style>
+</head>
+<body>
+
+<div class="comparison" id="comparison">
+  <img src="logo%201.png" alt="First logo">
+  <img class="after" src="logo%202.png" alt="Second logo">
+  <div class="line"></div>
+  <div class="handle">◀ ▶</div>
+  <input type="range" min="0" max="100"
+         value="50" aria-label="Compare logos">
+</div>
+
+<script>
+  const slider = document.getElementById("comparison");
+  const input = slider.querySelector("input");
+
+  input.addEventListener("input", () => {
+    slider.style.setProperty("--split", input.value + "%");
+  });
+</script>
+
+</body>
+</html>
